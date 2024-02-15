@@ -4,15 +4,13 @@
 #include <vector>
 #include <cmath>
 
-using namespace std;
-
 class Integral {
 public:
     using size_t = unsigned int;
     using value_t = float;
     using Iterator = value_t*;
 
-    Integral(const vector<double>& val, const vector<double>& elem)
+    Integral(const std::vector<double>& val, const std::vector<double>& elem)
         : funcval(val), arrayelemNew(elem) {
         n = val.size() - 1; // Number of subintervals
         step = elem[n] - elem[0]; // Width of the interval
@@ -20,7 +18,7 @@ public:
 
     Integral(size_t s) : newsize(s) {
         if (s > maxs()) {
-            throw range_error("invalid array size");
+            throw std::range_error("invalid array size");
         }
         newdata = new value_t[s];
     }
@@ -92,19 +90,19 @@ public:
     }
 
     void disp() {
-        cout << "input= argument ";
+        std::cout << "input= argument ";
 
         for (int i = 0; i < arrayelemNew.size(); ++i)
-            cout << arrayelemNew[i] << " ";
+            std::cout << arrayelemNew[i] << " ";
 
-        cout << '\n';
+        std::cout << '\n';
 
-        cout << "function ";
+        std::cout << "function ";
 
         for (int i = 0; i < funcval.size(); ++i)
-            cout << funcval[i] << " ";
+            std::cout << funcval[i] << " ";
 
-        cout << '\n';
+        std::cout << '\n';
     }
 
     size_t getsize() const {
@@ -126,9 +124,9 @@ private:
     double step;
 
     int n;
-    vector<double> funcval;
+    std::vector<double> funcval;
 
-    vector<double> arrayelemNew;
+    std::vector<double> arrayelemNew;
 
 
     double helpfunc(double x) {
@@ -142,16 +140,16 @@ private:
     value_t* newdata;
 };
 
-string transform(double v) {
+std::string transform(double v) {
 
-    double help = numeric_limits<double>::epsilon() * 1000.0;
+    double help = std::numeric_limits<double>::epsilon() * 1000.0;
 
-    ostringstream oss;
+    std::ostringstream oss;
 
-    if (abs(v - round(v)) < help)
+    if (std::abs(v - round(v)) < help)
         oss << static_cast<int>(v);
     else
-        oss << fixed << setprecision(1) << v;
+        oss << std::fixed << std::setprecision(1) << v;
 
     return oss.str();
 }
@@ -159,29 +157,29 @@ string transform(double v) {
 int main() {
     int arrsize;
 
-    cin >> arrsize;
+    std::cin >> arrsize;
 
-    vector<double> elem(arrsize);
-    vector<double> val(arrsize);
+    std::vector<double> elem(arrsize);
+    std::vector<double> val(arrsize);
 
     
     for (int i = 0; i < arrsize; ++i)
-        cin >> elem[i];
+        std::cin >> elem[i];
 
    
     for (int i = 0; i < arrsize; ++i)
-        cin >> val[i];
+        std::cin >> val[i];
 
     Integral findIntegral(val, elem);
 
     findIntegral.disp();
 
-    cout << "lev priam= " << findIntegral.leftRectangle() << endl;
-    cout << "sr priam= " << findIntegral.MiddleRectangle() << endl;
-    cout << "prav priam= " << findIntegral.RightRectangle() << endl;
-    cout << "trapeciy= " << findIntegral.Trapezia() << endl;
-    cout << "Simpson= " << findIntegral.Simpson() << endl;
-    cout << "Newton " << findIntegral.Newton() << endl;
+    std::cout << "lev priam= " << findIntegral.leftRectangle() << std::endl;
+    std::cout << "sr priam= " << findIntegral.MiddleRectangle() << std::endl;
+    std::cout << "prav priam= " << findIntegral.RightRectangle() << std::endl;
+    std::cout << "trapeciy= " << findIntegral.Trapezia() << std::endl;
+    std::cout << "Simpson= " << findIntegral.Simpson() << std::endl;
+    std::cout << "Newton " << findIntegral.Newton() << std::endl;
 
     return 0;
 }
